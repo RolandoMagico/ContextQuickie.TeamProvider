@@ -4,7 +4,7 @@ This Eclipse plugin provides a TortoiseSVN based team provider which forwards th
 - Copying files
 - Moving files
 
-Starting with version 0.4.0, it is possible to export and import projects sets which can be e.g. used for automatic deployment with Eclipse Oomph. A detailed description of the project set file format can be found here.
+Starting with version 0.4.0, it is possible to export and import projects sets which can be e.g. used for automatic deployment with Eclipse Oomph. A detailed description of the project set file format can be found [here](Team-Project-Set-File-Format).
 
 To use ContextQuickie.Teamprovider one of the following TortoiseSVN versions must be installed:
 - 1.9.x
