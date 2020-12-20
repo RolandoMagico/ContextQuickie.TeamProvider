@@ -136,6 +136,7 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
         IResource target = copyMoveInformation.getDestination();
         IResource targetParent = target.getParent();
         if (targetParent != null)
+        {
           try
           {
             SVNClient client = new SVNClient();
@@ -196,7 +197,8 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
           {
             status = new Status(Status.ERROR, Activator.PLUGIN_ID, DEFAULT_JOB_ERROR_MESSAGE, e);
           }
-
+        }
+        
         return status;
       }
     };
