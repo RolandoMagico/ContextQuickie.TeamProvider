@@ -28,7 +28,7 @@ public class ConfigurationWizard extends Wizard implements IConfigurationWizard
     return (super.canFinish() && (this.workingCopyRoot != null));
   }
 
-  private IProject _project;
+  private IProject currentProject;
 
   @Override
   public boolean performFinish()
@@ -38,7 +38,7 @@ public class ConfigurationWizard extends Wizard implements IConfigurationWizard
     {
       try
       {
-        RepositoryProvider.map(this._project, SvnRepositoryProvider.class.getTypeName());
+        RepositoryProvider.map(this.currentProject, SvnRepositoryProvider.class.getTypeName());
         returnValue = true;
       }
       catch (TeamException e)
@@ -54,12 +54,12 @@ public class ConfigurationWizard extends Wizard implements IConfigurationWizard
   @Override
   public void init(IWorkbench workbench, IProject project)
   {
-    this._project = project;
+    this.currentProject = project;
    
-    wizardPage.setProjectName(this._project.getName());
-    wizardPage.setProjectPath(this._project.getLocation().toOSString());
+    wizardPage.setProjectName(this.currentProject.getName());
+    wizardPage.setProjectPath(this.currentProject.getLocation().toOSString());
 
-    File currentDir = this._project.getLocation().toFile();
+    File currentDir = this.currentProject.getLocation().toFile();
     this.workingCopyRoot = new WorkingCopy(currentDir).getRoot();
     if (this.workingCopyRoot != null)
     {
@@ -67,7 +67,7 @@ public class ConfigurationWizard extends Wizard implements IConfigurationWizard
     }
     else
     {
-      wizardPage.setErrorMessage("Unable to find the working copy root for project " + this._project.getName());
+      wizardPage.setErrorMessage("Unable to find the working copy root for project " + this.currentProject.getName());
     }
   }
 }

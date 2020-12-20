@@ -52,13 +52,15 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
         int deltaKind = delta.getKind();
         int deltaFlags = delta.getFlags();
         final SvnRepositoryProvider svnRepositoryProvider = (SvnRepositoryProvider) repositoryProvider;
-        final SvnResourceRuleFactory svnResourceRuleFactory = (SvnResourceRuleFactory) svnRepositoryProvider.getRuleFactory();
+        final SvnResourceRuleFactory svnResourceRuleFactory = 
+            (SvnResourceRuleFactory) svnRepositoryProvider.getRuleFactory();
 
         if (((deltaKind & IResourceDelta.REMOVED) != 0) && ((deltaFlags & IResourceDelta.MOVED_TO) != 0))
         {
           CopyMoveInformation moveInformation = svnResourceRuleFactory.getLastMoveInformation();
-          if ((moveInformation != null) && (moveInformation.getSource().equals(delta.getResource()))
-              && (moveInformation.getDestination().getFullPath().equals(delta.getMovedToPath())))
+          if ((moveInformation != null) && 
+              (moveInformation.getSource().equals(delta.getResource())) && 
+              (moveInformation.getDestination().getFullPath().equals(delta.getMovedToPath())))
           {
             svnResourceRuleFactory.setLastMoveInformation(null);
 
@@ -141,7 +143,8 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
           {
             SVNClient client = new SVNClient();
 
-            if (ResourceDeltaVisitor.isResourceVersioned(source) && (ResourceDeltaVisitor.isResourceIgnored(target.getParent()) == false))
+            if (ResourceDeltaVisitor.isResourceVersioned(source) &&
+                (ResourceDeltaVisitor.isResourceIgnored(target.getParent()) == false))
             {
               if ((source.getType() == IResource.FOLDER) && (target.getType() == IResource.FOLDER))
               {
@@ -164,7 +167,18 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
                 {
                   List<CopySource> sources = new ArrayList<CopySource>();
                   sources.add(new CopySource(source.getLocation().toOSString(), Revision.WORKING, Revision.WORKING));
-                  client.copy(sources, target.getLocation().toOSString(), false, true, false, true, false, null, null, null, null);
+                  client.copy(
+                      sources, 
+                      target.getLocation().toOSString(), 
+                      false, 
+                      true, 
+                      false, 
+                      true, 
+                      false, 
+                      null,
+                      null, 
+                      null, 
+                      null);
                 }
               }
               else if ((source.getType() == IResource.FILE) && (target.getType() == IResource.FILE))
@@ -188,7 +202,18 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
                 {
                   List<CopySource> sources = new ArrayList<CopySource>();
                   sources.add(new CopySource(source.getLocation().toOSString(), Revision.WORKING, Revision.WORKING));
-                  client.copy(sources, target.getLocation().toOSString(), false, true, false, true, false, null, null, null, null);
+                  client.copy(
+                      sources, 
+                      target.getLocation().toOSString(), 
+                      false, 
+                      true, 
+                      false, 
+                      true, 
+                      false, 
+                      null, 
+                      null, 
+                      null, 
+                      null);
                 }
               }
             }
@@ -213,7 +238,17 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
     try
     {
       SVNClient client = new SVNClient();
-      client.status(resource.getLocation().toOSString(), Depth.empty, false, true, true, true, false, true, null, statusCallback);
+      client.status(
+          resource.getLocation().toOSString(), 
+          Depth.empty, 
+          false, 
+          true, 
+          true, 
+          true, 
+          false, 
+          true, 
+          null, 
+          statusCallback);
     }
     catch (ClientException e)
     {
@@ -236,12 +271,22 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor
       SVNClient client = new SVNClient();
       IResource currentResource = resource;
       SvnStatusCallback statusCallback = new SvnStatusCallback();
-      while ((statusCallback.getStatus() == null) && (currentResource != null)
-          && (currentResource.getLocation().toFile().equals(workingCopyRoot) == false))
+      while ((statusCallback.getStatus() == null) && (currentResource != null) && 
+             (currentResource.getLocation().toFile().equals(workingCopyRoot) == false))
       {
         try
         {
-          client.status(currentResource.getLocation().toOSString(), Depth.empty, false, true, true, true, false, true, null, statusCallback);
+          client.status(
+              currentResource.getLocation().toOSString(), 
+              Depth.empty, 
+              false, 
+              true, 
+              true, 
+              true, 
+              false, 
+              true, 
+              null, 
+              statusCallback);
         }
         catch (ClientException e)
         {

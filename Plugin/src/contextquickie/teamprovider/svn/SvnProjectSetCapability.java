@@ -30,7 +30,9 @@ public class SvnProjectSetCapability extends ProjectSetCapability
   }
 
   @Override
-  public String[] asReference(IProject[] providerProjects, ProjectSetSerializationContext context, IProgressMonitor monitor) throws TeamException
+  public String[] asReference(
+      IProject[] providerProjects, ProjectSetSerializationContext context, IProgressMonitor monitor) 
+          throws TeamException
   {
     List<String> result = new ArrayList<String>();
     for (IProject project : providerProjects)
@@ -42,7 +44,17 @@ public class SvnProjectSetCapability extends ProjectSetCapability
       {
         try
         {
-          client.status(workingCopyRoot.getAbsolutePath(), Depth.empty, false, true, true, true, false, true, null, statusCallback);
+          client.status(
+              workingCopyRoot.getAbsolutePath(), 
+              Depth.empty, 
+              false, 
+              true, 
+              true, 
+              true, 
+              false, 
+              true, 
+              null, 
+              statusCallback);
         }
         catch (ClientException e)
         {
@@ -77,7 +89,8 @@ public class SvnProjectSetCapability extends ProjectSetCapability
   }
 
   @Override
-  public IProject[] addToWorkspace(String[] referenceStrings, ProjectSetSerializationContext context, IProgressMonitor monitor) throws TeamException
+  public IProject[] addToWorkspace(
+      String[] referenceStrings, ProjectSetSerializationContext context, IProgressMonitor monitor) throws TeamException
   {
     List<IProject> projects = new ArrayList<IProject>();
     for (String referenceString : referenceStrings)
@@ -92,7 +105,8 @@ public class SvnProjectSetCapability extends ProjectSetCapability
       {
         projectName = entities[0];
         checkoutUrl = entities[1];
-        checkoutDirectory = projectLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName);
+        IPath workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation();
+        checkoutDirectory = projectLocation = workspaceLocation.append(projectName);
       }
       else if (entities.length == 3)
       {
@@ -117,11 +131,18 @@ public class SvnProjectSetCapability extends ProjectSetCapability
         SVNClient client = new SVNClient();
         try
         {
-          client.checkout(checkoutUrl, checkoutDirectory.toString(), Revision.HEAD, Revision.HEAD, Depth.infinity, false, true);
+          client.checkout(
+              checkoutUrl, checkoutDirectory.toString(), Revision.HEAD, Revision.HEAD, Depth.infinity, false, true);
         }
         catch (ClientException e)
         {
-          throw new TeamException("Unable to checkout project " + projectName + " from " + checkoutUrl + " to " + checkoutDirectory.toString(), e);
+          throw new TeamException(
+              String.format(
+                  "Unable to checkout project %s from %s to %s", 
+                  projectName, 
+                  checkoutUrl, 
+                  checkoutDirectory.toString()),
+              e);
         }
       }
 
