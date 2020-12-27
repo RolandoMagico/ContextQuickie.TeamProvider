@@ -81,9 +81,9 @@ public final class Registry
     return mapping;
   }
 
-  private native long readLongValue(final int hKey, final String location, final String key, final long defaultValue);
+  private native long readLongValue(final int hive, final String location, final String key, final long defaultValue);
 
-  private native void writeStringValue(final int hKey, final String location, final String key, final String value);
+  private native void writeStringValue(final int hive, final String location, final String key, final String value);
 
   /**
    * Reads a value from the registry.
@@ -103,7 +103,8 @@ public final class Registry
     return readStringValue(mapping.root, mapping.location, key, defaultValue);
   }
   
-  private native String readStringValue(final int hKey, final String location, final String key, final String defaultValue);
+  private native String readStringValue(
+      final int hive, final String location, final String key, final String defaultValue);
 
   /**
    * Reads a value from the registry.
